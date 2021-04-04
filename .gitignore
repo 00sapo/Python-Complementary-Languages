@@ -11,3 +11,6 @@ list_cy.cpp
 list_cy_annotations.cpp
 list_py_annotations.cpp
 __pycache__/
+
+list_py.cpp
+list_py.cpython-39-x86_64-linux-gnu.so

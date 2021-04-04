@@ -3,8 +3,9 @@ from typing import List
 
 from Cython.Build import Cythonize
 
-Cythonize.main(["*[!main.py][!simple_list.py].py", "-3", "--inplace"])
+Cythonize.main(["*[!main|simple_list]*.py", "-3", "--inplace"])
 Cythonize.main(["*.pyx", "-3", "--inplace"])
+# Cythonize.main(["list_py.py", "-3", "--inplace"])
 
 import simple_list
 import list_cy
