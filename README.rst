@@ -19,12 +19,13 @@ an unexpected behavior raise.
 Results
 -------
 
-Tested on 
-- Intel Core i5-8250U - 64 bits - Quad Core L2 cache: 6 MiB
-- Linux 5.4.105-1-MANJARO x86_64
-- GCC 10.2.0
-- Python 3.9.2
-- Cython 0.29.17
+Tested on:
+
+* Intel Core i5-8250U - 64 bits - Quad Core L2 cache: 6 MiB
+* Linux 5.4.105-1-MANJARO x86_64
+* GCC 10.2.0
+* Python 3.9.2
+* Cython 0.29.17
 
 +-------------------------------+----------------+---------------------------+---------------------------+
 |                               | No annotations | Annotations from `typing` | Annotations from `cython` |
