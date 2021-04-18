@@ -1,22 +1,26 @@
-# distutils: language=c++
 # cython: language_level=3
-from libcpp.vector cimport vector
+# from cython.parallel import prange
 
 
-def iterate_list(vector[vector[float]] a_list):
+cpdef float iterate_list(a_list):
 
-    cdef float count = 0
+    cdef double count = 0
     cdef int i, j
-    for i in range(a_list.size()):
-        for j in range(a_list.size()):
-            count *= a_list[i][j]
+    # with nogil:
+    #     for i in prange(a_list.size()):
+    for i in range(len(a_list)):
+        internal_list = a_list[i]
+        for j in range(len(internal_list)):
+            count += internal_list[j]
+    print(count)
+    return count
 
 
-def make_list(vector[vector[float]] a_list):
+cpdef list make_list(a_list):
     cdef int i, j
-    cdef vector[float] new_list
     for i in range(10**4):
         new_list = []
         for j in range(10**4):
-            new_list.push_back(0.01)
-        a_list.push_back(new_list)
+            new_list.append(0.01)
+        a_list.append(new_list)
+    return a_list

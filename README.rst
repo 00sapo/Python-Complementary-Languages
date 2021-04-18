@@ -10,14 +10,26 @@ Algorithm
 Implementations
 ---------------
 
-The real Cython solution is using C++ and ``vector`` type from ``cpplib.vector``.
+* Julia using Julia objects
+* Rust using Rust objects
+* Pure-python
+* Cython pure-python mode with no annotations
+* Cython pure-python mode with Python annotations
+* Cython pure-python mode with Cython annotations
+* Standard Cython
 
-Another solution is by using Cython in pure-python mode. For some reason here,
-an unexpected behavior raise.
+Setup
+-----
 
+* `poetry install --no-root`
+* `poetry run python setup.py build_ext --inplace`
+* `poetry run python -c "import julia; julia.install()"`
 
 Results
 -------
+
+* `poetry run python main.py`
+
 
 Tested on:
 
@@ -26,16 +38,28 @@ Tested on:
 * GCC 10.2.0
 * Python 3.9.2
 * Cython 0.29.17
+* Julia 1.6
+* Cargo 1.51
 
 +-------------------------------+----------------+---------------------------+---------------------------+
 |                               | No annotations | Annotations from `typing` | Annotations from `cython` |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| Pure Python                   | 11.22          | -                         | -                         |
+| Pure Python                   | 11.13          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| C++ Cython (pure-python mode) | 02.69          | 03.80                     | 05.37                     |
+| C++ Cython (pure-python mode) | 02.16          | 03.25                     | 03.04                     |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| C Cython (pure-python mode)   | 02.66          | 03.13                     | 08.27                     |
+| C Cython (pure-python mode)   | 02.78          | 03.07                     | 02.83                     |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| C++ Cython (.pyx)             | -              | -                         | 02.39                     |
+| C Cython (.pyx)               | -              | -                         | 02.98                     |
 +-------------------------------+----------------+---------------------------+---------------------------+
+| Julia (pyjulia)               | 03.63          | -                         | -                         |
++-------------------------------+----------------+---------------------------+---------------------------+
+| Rust (Pyo3)                   | 17.02          | -                         | -                         |
++-------------------------------+----------------+---------------------------+---------------------------+
+
+Cython is fast, but none of these methods are able to release the GIL. Moreove,
+in pure-python mode, cython effectiveness decreases while using typing
+annotations.
+
+Considering echosystem, multithreading and ease of use, Julia is a clear winner here.
 
