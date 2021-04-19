@@ -17,6 +17,7 @@ import list_py_c
 import simple_list
 import list_cy
 import list_rust
+import list_nim
 # import list_numba
 
 list_julia.eval('include("list_julia.jl")')
@@ -108,3 +109,9 @@ ttt = time.time()
 _a_list = list_cy_annotations_c.make_list(_a_list)
 list_cy_annotations_c.iterate_list(_a_list)
 print("C Cython-pure needed time: " + str(time.time() - ttt))
+
+_a_list = []
+ttt = time.time()
+_a_list = list_nim.make_list(_a_list)
+list_nim.iterate_list(_a_list)
+print("Nim needed time: " + str(time.time() - ttt))
