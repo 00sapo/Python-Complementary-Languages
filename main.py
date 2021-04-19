@@ -17,6 +17,7 @@ import list_py_c
 import simple_list
 import list_cy
 import list_rust
+import numpy as np
 # import list_numba
 
 list_julia.eval('include("list_julia.jl")')
@@ -36,11 +37,17 @@ _a_list: List[List[float]]
 # list_numba.iterate_list(_nb_a_list)
 # print("Numba multi-threading needed time: " + str(time.time() - ttt))
 
-a_list = []  # type: ignore
 ttt = time.time()
-a_list = list_rust.make_list(a_list)
-list_rust.iterate_list(a_list)
-print("Rust multithreading before needed time: " + str(time.time() - ttt))
+a_list = np.empty((10**4, 10**4))
+a_list = list_rust.make_list_py(a_list)
+list_rust.iterate_list_py(a_list)
+print("Rust time: " + str(time.time() - ttt))
+
+ttt = time.time()
+a_list = np.empty((10**4, 10**4))
+a_list = list_rust.make_list_py(a_list)
+list_rust.iterate_list_multi_py(a_list)
+print("Rust with multithreading time: " + str(time.time() - ttt))
 
 a_list = []  # type: ignore
 ttt = time.time()
@@ -53,12 +60,6 @@ ttt = time.time()
 a_list = list_julia.make_list(a_list)
 list_julia.Threaded.iterate_list(a_list)
 print("Julia multi-threading needed time: " + str(time.time() - ttt))
-
-a_list = []  # type: ignore
-ttt = time.time()
-a_list = list_rust.make_list(a_list)
-list_rust.iterate_list(a_list)
-print("Rust multithreading after needed time: " + str(time.time() - ttt))
 
 a_list = []  # type: ignore
 ttt = time.time()
