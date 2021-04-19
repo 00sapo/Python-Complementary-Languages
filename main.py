@@ -41,13 +41,19 @@ ttt = time.time()
 a_list = np.empty((10**4, 10**4))
 a_list = list_rust.make_list_py(a_list)
 list_rust.iterate_list_py(a_list)
-print("Rust time: " + str(time.time() - ttt))
+print("Rust-numpy time: " + str(time.time() - ttt))
 
 ttt = time.time()
 a_list = np.empty((10**4, 10**4))
 a_list = list_rust.make_list_py(a_list)
 list_rust.iterate_list_multi_py(a_list)
-print("Rust with multithreading time: " + str(time.time() - ttt))
+print("Rust-numpy with multithreading time: " + str(time.time() - ttt))
+
+a_list = []  # type: ignore
+ttt = time.time()
+a_list = list_rust.make_list(a_list)
+list_rust.iterate_list(a_list)
+print("Rust multithreading before needed time: " + str(time.time() - ttt))
 
 a_list = []  # type: ignore
 ttt = time.time()
@@ -60,6 +66,13 @@ ttt = time.time()
 a_list = list_julia.make_list(a_list)
 list_julia.Threaded.iterate_list(a_list)
 print("Julia multi-threading needed time: " + str(time.time() - ttt))
+
+
+a_list = []  # type: ignore
+ttt = time.time()
+a_list = list_rust.make_list(a_list)
+list_rust.iterate_list(a_list)
+print("Rust multithreading after needed time: " + str(time.time() - ttt))
 
 a_list = []  # type: ignore
 ttt = time.time()
