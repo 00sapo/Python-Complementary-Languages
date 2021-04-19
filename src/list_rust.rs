@@ -1,17 +1,30 @@
 extern crate ndarray;
-use ndarray::parallel::prelude::*;
+use ndarray::{parallel::prelude::*, Axis};
 use numpy::{PyArray2, PyReadonlyArray2};
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
 
 #[pyfunction]
 fn iterate_list_py<'py>(py: Python<'py>, a_list: PyReadonlyArray2<'_, f64>) -> f64 {
-    a_list.as_array().sum()
+    // Idiomatic way
+    //a_list.as_array().sum()
+
+    // To comply with "Algorithm"
+    a_list
+        .as_array()
+        .axis_iter(Axis(0))
+        .map(|row| row.sum())
+        .sum()
 }
 
 #[pyfunction]
 fn iterate_list_multi_py<'py>(py: Python<'py>, a_list: PyReadonlyArray2<'_, f64>) -> f64 {
-    a_list.as_array().into_par_iter().sum()
+    a_list
+        .as_array()
+        .axis_iter(Axis(0))
+        .into_par_iter()
+        .map(|row| row.sum())
+        .sum()
 }
 
 #[pyfunction]
@@ -24,13 +37,13 @@ fn make_list_py<'py>(py: Python<'py>, a_list: &'py PyArray2<f64>) -> &'py PyArra
 
 #[pyfunction]
 fn iterate_list(py: Python, a_list: Vec<Vec<f64>>) -> f64 {
-    // let count = a_list.iter().map(|l| l.iter().sum::<f64>()).sum::<f64>();
-    let count = py.allow_threads(|| {
-        a_list
-            .par_iter()
-            .map(|l| l.iter().sum::<f64>())
-            .sum::<f64>()
-    });
+    let count = a_list.iter().map(|l| l.iter().sum::<f64>()).sum::<f64>();
+    // let count = py.allow_threads(|| {
+    //     a_list
+    //         .par_iter()
+    //         .map(|l| l.iter().sum::<f64>())
+    //         .sum::<f64>()
+    // });
     println!("{}", count);
 
     return count;
