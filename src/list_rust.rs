@@ -10,27 +10,38 @@ fn iterate_list_py<'py>(py: Python<'py>, a_list: PyReadonlyArray2<'_, f64>) -> f
     //a_list.as_array().sum()
 
     // To comply with "Algorithm"
-    a_list
+    let sum = a_list
         .as_array()
         .axis_iter(Axis(0))
         .map(|row| row.sum())
-        .sum()
+        .sum();
+    println!("{}", sum);
+    sum
 }
 
 #[pyfunction]
 fn iterate_list_multi_py<'py>(py: Python<'py>, a_list: PyReadonlyArray2<'_, f64>) -> f64 {
-    a_list
+    let sum = a_list
         .as_array()
         .axis_iter(Axis(0))
         .into_par_iter()
         .map(|row| row.sum())
-        .sum()
+        .sum();
+    println!("{}", sum);
+    sum
 }
 
 #[pyfunction]
 fn make_list_py<'py>(py: Python<'py>, a_list: &'py PyArray2<f64>) -> &'py PyArray2<f64> {
     unsafe {
-        a_list.as_array_mut().fill(0.01);
+        // Idiomatic way
+        // a_list.as_array_mut().fill(0.01);
+
+        // Match the Algorithm description explicitly
+        a_list
+            .as_array_mut()
+            .axis_iter_mut(Axis(0))
+            .for_each(|mut row| row.fill(0.01))
     }
     a_list
 }
