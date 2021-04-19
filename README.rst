@@ -44,22 +44,37 @@ Tested on:
 +-------------------------------+----------------+---------------------------+---------------------------+
 |                               | No annotations | Annotations from `typing` | Annotations from `cython` |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| Pure Python                   | 11.13          | -                         | -                         |
+| Pure Python                   | 11.08          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| C++ Cython (pure-python mode) | 02.16          | 03.25                     | 03.04                     |
+| C++ Cython (pure-python mode) | 02.25          | 02.81                     | 02.96                     |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| C Cython (pure-python mode)   | 02.78          | 03.07                     | 02.83                     |
+| C Cython (pure-python mode)   | 02.23          | 02.97                     | 02.91                     |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| C Cython (.pyx)               | -              | -                         | 02.98                     |
+| C Cython (.pyx)               | -              | -                         | 02.77                     |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| Julia (pyjulia)               | 03.63          | -                         | -                         |
+| Julia (pyjulia)               | 03.50          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| Rust (Pyo3)                   | 17.02          | -                         | -                         |
+| Julia (pyjulia) parallel      | 02.11          | -                         | -                         |
++-------------------------------+----------------+---------------------------+---------------------------+
+| Rust (Pyo3) parallel before   | 08.72          | -                         | -                         |
++-------------------------------+----------------+---------------------------+---------------------------+
+| Rust (Pyo3) parallel after    | 29.17          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
 
-Cython is fast, but none of these methods are able to release the GIL. Moreove,
-in pure-python mode, cython effectiveness decreases while using typing
-annotations.
+Cython is fast, but none of these methods are able to release the GIL. Moreover,
+in pure-python mode, Cython effectiveness decreases while using typing
+annotations. Last but not least, it's hard to understand which solution is
+better with Cython. The average time is 2.7
+
+Rust is not that fast beacuse it needs to copy data; using Pyo3 objects would
+probably lead to similar results as cython, but with an added library.
+Moreover, it's tricky because after having run some code its perfomance
+decreases.
+
+Numba is still tricky with lists. I tried to use them, but it fails. In my
+experience, numba lists in nopython mode slows down the code.
+
+Julia is fast (only 30% slower than the average Cython). With multithreading
+it's even faster than Cython.
 
 Considering echosystem, multithreading and ease of use, Julia is a clear winner here.
-

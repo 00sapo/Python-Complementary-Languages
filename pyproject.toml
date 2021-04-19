@@ -5,11 +5,12 @@ description = ""
 authors = ["Federico Simonetta <federico.simonetta@unimi.it>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "3.9"
 Cython = "^0.29.22"
 maturin = "^0.10.3"
 julia = "^0.5.6"
 numpy = "^1.20.2"
+numba = "^0.53.1"
 
 [tool.poetry.dev-dependencies]
 

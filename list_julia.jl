@@ -1,4 +1,3 @@
-using Threads
 using PyCall
 
 function iterate_list(a_list::Vector{Vector{Float64}})

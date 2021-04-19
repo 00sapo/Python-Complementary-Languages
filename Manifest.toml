@@ -175,6 +175,11 @@ uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
+[[ThreadedIterables]]
+git-tree-sha1 = "a3ca75dd6f2f2a993a5f0f860047d671cebe7141"
+uuid = "11d239b0-c0b9-11e8-1935-d5cfa53abb03"
+version = "0.2.0"
+
 [[Tokenize]]
 git-tree-sha1 = "15318136d8b7a91a0e49916ec931cc51d5456ab2"
 uuid = "0796e94c-ce3b-5d07-9a54-7f471281c624"

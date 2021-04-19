@@ -10,6 +10,9 @@ setup(
 
 
 from Cython.Build import Cythonize
-Cythonize.main(["*[!main|simple_list]*.py", "-3", "--inplace"])
+Cythonize.main(["*[!list_numba|main|simple_list]*.py", "-3", "--inplace"])
 Cythonize.main(["*.pyx", "-3", "--inplace"])
+# for path in paths:
+#     Cythonize.main([path, "-3", "--inplace"])
+
 

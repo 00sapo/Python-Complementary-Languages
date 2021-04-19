@@ -6,8 +6,6 @@ cpdef float iterate_list(a_list):
 
     cdef double count = 0
     cdef int i, j
-    # with nogil:
-    #     for i in prange(a_list.size()):
     for i in range(len(a_list)):
         internal_list = a_list[i]
         for j in range(len(internal_list)):
