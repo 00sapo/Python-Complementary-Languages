@@ -17,7 +17,7 @@ Implementations
 * Cython pure-python mode with Python annotations
 * Cython pure-python mode with Cython annotations
 * Standard Cython
-* [Nim lang](http://nim-lang.org)
+* Nim lang
 
 Setup
 -----
