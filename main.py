@@ -1,7 +1,7 @@
 import os
 import time
 from typing import List
-# from numba import typed, types, float64
+from numba import typed, types, float64
 
 from julia.api import LibJulia  # noqa: autoimport
 api = LibJulia.load()  # noqa: autoimport
@@ -17,24 +17,36 @@ import list_py_c
 import simple_list
 import list_cy
 import list_rust
-# import list_numba
+import list_numba
 
 list_julia.eval('include("list_julia.jl")')
 list_julia.eval('include("list_julia_threads.jl")')
 
 _a_list: List[List[float]]
 
-# _nb_a_list = typed.List(typed.List(float64))
-# ttt = time.time()
-# _nb_a_list = list_numba.make_list(_nb_a_list)
-# list_numba.iterate_list_par(_nb_a_list)
-# print("Numba needed time: " + str(time.time() - ttt))
+_nb_a_list = list_numba.make_empty_numba_list()
+ttt = time.time()
+_nb_a_list = list_numba.make_list(_nb_a_list)
+list_numba.iterate_list_par(_nb_a_list)
+print("Numba needed time: " + str(time.time() - ttt))
 
-# _nb_a_list = NBList()  # type: ignore
-# ttt = time.time()
-# _nb_a_list = list_numba.make_list(_nb_a_list)
-# list_numba.iterate_list(_nb_a_list)
-# print("Numba multi-threading needed time: " + str(time.time() - ttt))
+_nb_a_list = list_numba.make_empty_numba_list()
+ttt = time.time()
+_nb_a_list = list_numba.make_list(_nb_a_list)
+list_numba.iterate_list_par(_nb_a_list)
+print("Numba needed time (after compile): " + str(time.time() - ttt))
+
+_nb_a_list = list_numba.make_empty_numba_list()
+ttt = time.time()
+_nb_a_list = list_numba.make_list(_nb_a_list)
+list_numba.iterate_list_par_parallel(_nb_a_list)
+print("Numba multi-threading needed time: " + str(time.time() - ttt))
+
+_nb_a_list = list_numba.make_empty_numba_list()
+ttt = time.time()
+_nb_a_list = list_numba.make_list(_nb_a_list)
+list_numba.iterate_list_par_parallel(_nb_a_list)
+print("Numba multi-threading needed time (after compile): " + str(time.time() - ttt))
 
 a_list = []  # type: ignore
 ttt = time.time()
@@ -51,8 +63,20 @@ print("Julia needed time: " + str(time.time() - ttt))
 a_list = []  # type: ignore
 ttt = time.time()
 a_list = list_julia.make_list(a_list)
+list_julia.iterate_list(a_list)
+print("Julia needed time (after warm up): " + str(time.time() - ttt))
+
+a_list = []  # type: ignore
+ttt = time.time()
+a_list = list_julia.make_list(a_list)
 list_julia.Threaded.iterate_list(a_list)
 print("Julia multi-threading needed time: " + str(time.time() - ttt))
+
+a_list = []  # type: ignore
+ttt = time.time()
+a_list = list_julia.make_list(a_list)
+list_julia.Threaded.iterate_list(a_list)
+print("Julia multi-threading needed time (after warm up): " + str(time.time() - ttt))
 
 a_list = []  # type: ignore
 ttt = time.time()
