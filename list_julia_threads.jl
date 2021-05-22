@@ -3,7 +3,7 @@ module Threaded
 using ThreadedIterables: tmapreduce
 
 
-function iterate_list(a_list::Vector{Vector{Float64}})
+function iterate_list(a_list)
     count::Float64 = tmapreduce(x -> reduce(+, x), +, a_list)
     println(count)
     return count
