@@ -3,8 +3,8 @@ Test for lists in cython
 
 Algorithm
 ---------
-1. create a list of 10^4 lists each with 10^4 floats values (namely: 0.1) - 2 nested for
-2. iterate each list and compute the cumulative product - 2 netsted for
+1. Create a list of 10^4 lists each with 10^4 floats values (namely: 0.01) - 2 nested for
+2. Iterate each list and compute the cumulative product - 2 nested for
 
 
 Implementations
@@ -17,6 +17,7 @@ Implementations
 * Cython pure-python mode with Python annotations
 * Cython pure-python mode with Cython annotations
 * Standard Cython
+* Nim lang
 
 Setup
 -----
@@ -44,6 +45,7 @@ Tested on:
 * Cython 0.29.17
 * Julia 1.6
 * Cargo 1.51
+* Nim 1.4.6
 
 
 **Pure python time (reference): 11.03 s**
@@ -65,6 +67,8 @@ Compiled-based languages
 | Rust (PyO3) parallel 2nd run  | 09.45          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
 | Nim                           | 09.38          | -                         | -                         |
++-------------------------------+----------------+---------------------------+---------------------------+
+| Nim                           | ?              | ?                         | ?                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
 
 JIT-based languages
