@@ -20,15 +20,19 @@ Implementations
 
 Setup
 -----
+* Install pyenv: ``curl https://pyenv.run | bash; exec $SHELL``
+* Install python 3.9.6: ``PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.9.6``
+* Install poetry: ``curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -``
+* Install project dependencies: ``poetry install --no-root``
+* ``poetry run python setup.py build_ext --inplace``
+* ``poetry run nim c -d:danger --out:list_nim.so list_nim.nim``
 
-* `poetry install --no-root`
-* `poetry run python setup.py build_ext --inplace`
-* `poetry run python -c "import julia; julia.install()"`
+N.B. ``PYTHON_CONFIGURE_OPTS="--enable-shared"`` is needed for pyjulia to work.
 
 Results
 -------
 
-* `poetry run python main.py`
+* ``poetry run python main.py``
 
 
 Tested on:
@@ -59,6 +63,8 @@ Compiled-based languages
 | Rust (PyO3) parallel 1st run  | 07.40          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
 | Rust (PyO3) parallel 2nd run  | 09.45          | -                         | -                         |
++-------------------------------+----------------+---------------------------+---------------------------+
+| Nim                           | 09.38          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
 
 JIT-based languages
@@ -95,5 +101,5 @@ Considering echosystem, multithreading and ease of use, Julia is a clear winner
 here.
 
 Note, however, that `pyjulia` cannot be run in multiple python subprocesses,
-which is a shame for parallelizeing code at the process level -- e.g. for
-speeding-up tests, etc.
+which is a shame for parallelizeing code at the process level -- e.g. for speeding-up tests, etc.
+It's then much easier to use Python from Julia using PyCall module.
