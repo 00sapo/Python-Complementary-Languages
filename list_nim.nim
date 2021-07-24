@@ -15,6 +15,3 @@ func make_list(a_list: openArray[seq[float]]): seq[seq[float]] {.exportpy, noini
     for j in 0 ..< length:
       new_list[j] = 0.01
     result[i] = new_list
-
-
-# Notes: Can be made faster by replacing seq with array, because length is known.

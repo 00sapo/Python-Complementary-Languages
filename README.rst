@@ -66,9 +66,7 @@ Compiled-based languages
 +-------------------------------+----------------+---------------------------+---------------------------+
 | Rust (PyO3) parallel 2nd run  | 09.45          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| Nim                           | 09.38          | -                         | -                         |
-+-------------------------------+----------------+---------------------------+---------------------------+
-| Nim                           | ?              | ?                         | ?                         |
+| Nim                           | 05.59          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
 
 JIT-based languages
@@ -95,6 +93,8 @@ Rust is not that fast beacuse it needs to copy data; using Pyo3 objects would
 probably lead to similar results as cython, but with an added library.
 Moreover, it's tricky because after having run some code its perfomance
 decreases.
+
+Similarly to Rust, Nim suffers from copying data too.
 
 Numba is still tricky with lists. Performance is encouraging, but the code is
 not intuitive at all and requires a lot of hacks, breaking the pythonic

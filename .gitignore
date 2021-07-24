@@ -28,3 +28,4 @@ setup.cpython-39-x86_64-linux-gnu.so
 setup.c
 list_rust.cpython-39-x86_64-linux-gnu.so
 tags
+list_nim.so
