@@ -21,15 +21,19 @@ Implementations
 
 Setup
 -----
+* Install pyenv: ``curl https://pyenv.run | bash; exec $SHELL``
+* Install python 3.9.6: ``PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.9.6``
+* Install poetry: ``curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -``
+* Install project dependencies: ``poetry install --no-root``
+* ``poetry run python setup.py build_ext --inplace``
+* ``poetry run nim c -d:danger --out:list_nim.so list_nim.nim``
 
-* `poetry install --no-root`
-* `poetry run python setup.py build_ext --inplace`
-* `poetry run python -c "import julia; julia.install()"`
+N.B. ``PYTHON_CONFIGURE_OPTS="--enable-shared"`` is needed for pyjulia to work.
 
 Results
 -------
 
-* `poetry run python main.py`
+* ``poetry run python main.py``
 
 
 Tested on:
@@ -43,42 +47,63 @@ Tested on:
 * Cargo 1.51
 * Nim 1.4.6
 
+
+**Pure python time (reference): 11.03 s**
+
+Compiled-based languages
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 +-------------------------------+----------------+---------------------------+---------------------------+
 |                               | No annotations | Annotations from `typing` | Annotations from `cython` |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| Pure Python                   | 11.08          | -                         | -                         |
+| C++ Cython (pure-python mode) | 02.42          | 02.98                     | 02.92                     |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| C++ Cython (pure-python mode) | 02.25          | 02.81                     | 02.96                     |
+| C Cython (pure-python mode)   | 02.40          | 02.97                     | 02.87                     |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| C Cython (pure-python mode)   | 02.23          | 02.97                     | 02.91                     |
+| C Cython (.pyx)               | -              | -                         | 00.81                     |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| C Cython (.pyx)               | -              | -                         | 02.77                     |
+| Rust (PyO3) parallel 1st run  | 07.40          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| Julia (pyjulia)               | 03.50          | -                         | -                         |
+| Rust (PyO3) parallel 2nd run  | 09.45          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
-| Julia (pyjulia) parallel      | 02.11          | -                         | -                         |
-+-------------------------------+----------------+---------------------------+---------------------------+
-| Rust (Pyo3) parallel before   | 08.72          | -                         | -                         |
-+-------------------------------+----------------+---------------------------+---------------------------+
-| Rust (Pyo3) parallel after    | 29.17          | -                         | -                         |
+| Nim                           | 09.38          | -                         | -                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
 | Nim                           | ?              | ?                         | ?                         |
 +-------------------------------+----------------+---------------------------+---------------------------+
 
+JIT-based languages
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
++-------------------------------+----------------+-----------+
+|                               | Second run     | First Run |
++-------------------------------+----------------+-----------+
+| Julia (pyjulia)               | 00.83          | 02.46     |
++-------------------------------+----------------+-----------+
+| Julia (pyjulia) parallel      | 00.52          | 01.12     |
++-------------------------------+----------------+-----------+
+| Numba                         | 04.88          | 05.58     |
++-------------------------------+----------------+-----------+
+| Numba parallel                | 02.75          | 03.30     |
++-------------------------------+----------------+-----------+
+
 Cython is fast, but none of these methods are able to release the GIL. Moreover,
 in pure-python mode, Cython effectiveness decreases while using typing
 annotations. Last but not least, it's hard to understand which solution is
-better with Cython. The average time is 2.7
+better with Cython. The average time is 2.48 s.
 
 Rust is not that fast beacuse it needs to copy data; using Pyo3 objects would
 probably lead to similar results as cython, but with an added library.
 Moreover, it's tricky because after having run some code its perfomance
 decreases.
 
-Numba is still tricky with lists. I tried to use them, but it fails. In my
-experience, numba lists in nopython mode slows down the code.
+Numba is still tricky with lists. Performance is encouraging, but the code is
+not intuitive at all and requires a lot of hacks, breaking the pythonic
+language.
 
-Julia is fast (only 30% slower than the average Cython). With multithreading
-it's even faster than Cython.
+Julia is fast as much as Cython and with multithreading it's even faster!
+Considering echosystem, multithreading and ease of use, Julia is a clear winner
+here.
 
-Considering echosystem, multithreading and ease of use, Julia is a clear winner here.
+Note, however, that `pyjulia` cannot be run in multiple python subprocesses,
+which is a shame for parallelizeing code at the process level -- e.g. for speeding-up tests, etc.
+It's then much easier to use Python from Julia using PyCall module.
