@@ -1,11 +1,14 @@
-Test for lists in cython
-========================
+Python Complementary Languages
+==============================
+
+This repository contains a small benchmark to see which language is better to speedup computations when Python lists of lists are used
 
 Algorithm
 ---------
 1. Create a list of 10^4 lists each with 10^4 floats values (namely: 0.01) - 2 nested for
 2. Iterate each list and compute the cumulative product - 2 nested for
 
+Algorithms that use numpy arrays instead of lists are not valid.
 
 Implementations
 ---------------
@@ -13,6 +16,7 @@ Implementations
 * Julia using Julia objects
 * Rust using Rust objects
 * Pure-python
+* Numba
 * Cython pure-python mode with no annotations
 * Cython pure-python mode with Python annotations
 * Cython pure-python mode with Cython annotations
