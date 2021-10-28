@@ -8,7 +8,7 @@ Algorithm
 1. Create a list of 10^4 lists each with 10^4 floats values (namely: 0.01) - 2 nested for
 2. Iterate each list and compute the cumulative product - 2 nested for
 
-Algorithms that use numpy arrays instead of lists are not valid.
+Algorithms using arrays instead of lists are not valid.
 
 Implementations
 ---------------
@@ -107,7 +107,3 @@ language.
 Julia is fast as much as Cython and with multithreading it's even faster!
 Considering echosystem, multithreading and ease of use, Julia is a clear winner
 here.
-
-Note, however, that `pyjulia` cannot be run in multiple python subprocesses,
-which is a shame for parallelizeing code at the process level -- e.g. for speeding-up tests, etc.
-It's then much easier to use Python from Julia using PyCall module.
