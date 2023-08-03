@@ -5,10 +5,14 @@ This repository contains a small benchmark to see which language is better to sp
 
 Algorithm
 ---------
-1. Create a list of 10^4 lists each with 10^4 floats values (namely: 0.01) - 2 nested for
+1. Create a list of 10^4 lists each with a number of floats defined by the the argument; the float
+   value is arbitrary (e.g. 0.1)
 2. Iterate each list and compute the cumulative product - 2 nested for
 
-Algorithms using arrays instead of lists are not valid.
+Algorithms using arrays instead of lists/vectors are not valid.
+
+The aim of the algorithm is to prove ability in data sharing from Python to the
+complementary language and back, including counting precision with little numbers.
 
 Implementations
 ---------------
@@ -26,30 +30,34 @@ Implementations
 Setup
 -----
 * Install pyenv: ``curl https://pyenv.run | bash; exec $SHELL``
-* Install python 3.9.6: ``PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.9.6``
-* Install poetry: ``curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -``
-* Install project dependencies: ``poetry install --no-root``
-* ``poetry run python setup.py build_ext --inplace``
-* ``poetry run nim c -d:danger --out:list_nim.so list_nim.nim``
+* Install python 3.11.4: ``PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.11.4``
+* Install pdm: ``curl -sSL https://pdm.fming.dev/install-pdm.py | python3 - ``
+* Install Cargo, Nim, C/C++ compiler
+* Install project dependencies: ``pdm install -v`` (create virtualenv, install
+  pakages, and compile). **When prompted for recompiling PyCall, choose option 2.
+  (recompile) and optionally restart the installtion if it fails**
 
 N.B. ``PYTHON_CONFIGURE_OPTS="--enable-shared"`` is needed for pyjulia to work.
 
 Results
 -------
 
-* ``poetry run python main.py``
+* ``
+* ``pdm run python main.py``
+``
 
 
 Tested on:
 
-* Intel Core i5-8250U - 64 bits - Quad Core L2 cache: 6 MiB
-* Linux 5.4.105-1-MANJARO x86_64
-* GCC 10.2.0
-* Python 3.9.2
-* Cython 0.29.17
-* Julia 1.6
-* Cargo 1.51
-* Nim 1.4.6
+* CPU: 14-core 12th Gen Intel Core i9-12900H (-MST AMCP-)
+speed/min/max: 2413/400/4900:5000:3800 MHz
+* Linux 6.1.41
+* GCC 13.1.1
+* Python 3.11.4
+  Cython 3.0.0
+* Julia 1.9.2
+* Cargo 1.71.0
+* Nim 1.6.10
 
 
 **Pure python time (reference): 11.03 s**

@@ -3,10 +3,9 @@ import time
 from typing import List
 from numba import typed, types, float64
 
-from julia.api import LibJulia  # noqa: autoimport
-api = LibJulia.load()  # noqa: autoimport
-api.init_julia(["--project=.", "--optimize=3", f"--threads={os.cpu_count()}"])  # noqa: autoimport
-from julia import Main as list_julia
+from _julia_project import myjuliaproject
+
+list_julia = myjuliaproject.julia.Main
 
 import list_cy_annotations
 import list_cy_annotations_c

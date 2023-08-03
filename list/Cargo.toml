@@ -1,8 +1,8 @@
 [package]
-name = "cython_test"
+name = "rust_python_list"
 version = "0.1.0"
-authors = ["Federico Simonetta <federico.simonetta@unimi.it>"]
-edition = "2018"
+authors = ["Federico Simonetta <federicosimonetta@zoho.com>"]
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -17,8 +17,8 @@ path = "src/list_rust.rs"
 crate-type = ["cdylib"]
 
 [dependencies]
-rayon = "1.5.0" 
+rayon = "1.7.0"
 
 [dependencies.pyo3]
-version = "0.13.2"
+version = "0.19.2"
 features = ["extension-module"]

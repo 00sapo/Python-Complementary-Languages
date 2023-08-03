@@ -1,0 +1,30 @@
+[project]
+name = "python_complementary_languages"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Federico Simonetta", email = "federicosimonetta@zoho.com"},
+]
+dependencies = [
+    "julia-project>=0.1.27",
+    "cython>=3.0.0",
+    "numba>=0.57.1",
+    "maturin>=1.1.0",
+    "setuptools-rust>=1.6.0",
+]
+requires-python = "==3.11.4"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm.scripts]
+# install_pip = "python -m ensurepip"
+# update_pip = "python -m pip install -U pip"
+# update_cython = "python -m pip install -U cython"
+build_setuptools = "python setup.py build_ext --inplace"
+nimpy = "nimble install nimpy"
+build_nim = "nim c -d:danger --out:list_nim.so list_nim.nim"
+# post_install = { composite=["install_pip", "update_pip", "update_cython", "build_setuptools", "build_nim"] }
+post_install = { composite=["build_setuptools", "nimpy", "build_nim"] }
+
+[build-system]
+requires = ["setuptools-rust", "setuptools", "Cython", "julia-project"]
